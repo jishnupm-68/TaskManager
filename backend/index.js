@@ -2,8 +2,13 @@ const express = require('express');
 const app = express();
 const connectDb = require('./config/db');
 require('dotenv').config();
-
-
+const cookieParser = require('cookie-parser');
+const userRouter = require('./src/routes/user');
+const todoRouter = require('./src/routes/todo');
+app.use(express.json());
+app.use(cookieParser());
+app.use("/", userRouter)
+app.use("/", todoRouter);
 
 connectDb()
 .then(()=>{
