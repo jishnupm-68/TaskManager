@@ -9,7 +9,7 @@ app.use(express.json());
 app.use(cookieParser());
 app.use("/", userRouter)
 app.use("/", todoRouter);
-
+  
 connectDb()
 .then(()=>{
     app.listen(process.env.PORT, () => {
@@ -17,5 +17,5 @@ connectDb()
     });
 })
 .catch((error)=>{
-    console.log("Failed to start server due to database connection error:", error);
+    console.log("Failed to start server due to database connection error:", error.message);
 })
