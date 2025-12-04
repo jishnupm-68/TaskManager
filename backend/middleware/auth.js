@@ -1,6 +1,6 @@
 const jwt = require('jsonwebtoken');
 const User = require('../src/model/user');
-const isLoginedIn = async (req, res, next) => {
+const isLoggedIn = async (req, res, next) => {
     try {
         const token = req.cookies.token;
         if(!token) return res.status(401).json({message: "Unauthorized: Please login", status:false});
@@ -15,4 +15,4 @@ const isLoginedIn = async (req, res, next) => {
         res.status(500).json({message: "Internal Server Error "+error.message, status:false});
     }
 };
-module.exports = isLoginedIn;
+module.exports = isLoggedIn;

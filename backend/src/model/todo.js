@@ -15,7 +15,13 @@ const todoSchema = new mongoose.Schema({
     },
     dueDate : {
         type: Date,
-        required: false
+        required: false,
+        validate(value) {
+            let due = new Date(value);
+            if (due < new Date()) {
+                throw new Error("Due date must be in the future");
+            }
+        }
     },
     status : {
         type: String,
