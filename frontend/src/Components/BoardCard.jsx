@@ -18,18 +18,34 @@ const BoardCard = ({status, todo}) => {
     </tr>
   </thead>
   <tbody className='bg-red-100 '>
-  {todo && 
-    todo.map((item, index) => (
-      <button onClick={()=>getTaskDetails(item._id)}>
-      <tr key={item.id}>
-          <td className={(index%2==0?'bg-red-800 ':'bg-green-500')+ ' border-red-900 cursor-pointer'}>{item.title}
-            <br />
-            Due: {new Date(item.dueDate).toLocaleString()}
-        </td>
-      </tr>
-      </button>
-    ))
-  }
+  
+  {todo &&
+  todo.map((item, index) => (
+    <tr key={item._id} onClick={() => getTaskDetails(item._id)}
+        className={index % 2 === 0 ? "bg-red-800" : "bg-green-500"}>
+      
+      <td className="border-red-900 cursor-pointer">
+        {item.title}
+        <br />
+        Due: {new Date(item.dueDate).toLocaleString()}
+        <br />
+        
+      </td>
+      <td>
+        <button
+          onClick={(e) => {
+            e.stopPropagation();      // prevent row click
+            getTaskDetails(item._id); // your function
+          }}
+          className="px-3 py-1 bg-blue-500 text-white rounded"
+        >
+          View
+        </button>
+      </td>
+    </tr>
+  ))
+}
+
 </tbody>
     </table>
 

@@ -8,6 +8,7 @@ import { BASE_URL } from '../../utils/constants';
 import { Link, Navigate, useNavigate, useParams } from 'react-router';
 import { useSelector } from 'react-redux';
 import AlertModal from './AlertModal';
+import TextArea from './TextArea';
 
 const EditTask = () => {
     const {_id} = useParams();
@@ -68,8 +69,9 @@ const EditTask = () => {
     <div className='flex justify-center items-center min-h-screen'>
   <div className="card w-96 bg-gray-500 shadow-sm text-amber-950">
     <div className="card-body">
-      <h2 className="card-title">Xsmall Card</h2>
-      <InputField value={title} setValue={setTitle} label={"Title"} type='text' />
+      <h2 className="card-title">Edit Task</h2>
+      
+       <TextArea value={title} setValue={setTitle} label={"Title"} />
       <DropDown options={"Priority"} list={priorityList} listVal={priority} setValue={setPriority}/>
       <DropDown options={"Status"} list={statusList} listVal={status} setValue={setStatus}/>
       <InputField value={dueDate} setValue={setDueDate} label={"Due Date" } type="datetime-local" />
@@ -82,7 +84,7 @@ const EditTask = () => {
 </button>
 <AlertModal _id={todo[0]._id} setShowModal={setShowModal} showModal={showModal} />
         <Link className="btn btn-warning" to={'/'}>Cancel</Link>
-        <button className="btn btn-primary" onClick={()=>handleUpdateTask()}>Update Task</button>
+        <button className={"btn btn-primary"} onClick={()=>handleUpdateTask()}>Update Task</button>
       </div>
       {message && <Response message={message} status={statusRes}/>}
     </div>

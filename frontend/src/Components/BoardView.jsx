@@ -4,7 +4,7 @@ import BoardCard from "./BoardCard";
 
 const BoardView = () => {
     const todo = useSelector(state=>state.todo)
-    console.log(todo)
+
   return (
     <div className="bg-gray-400 flex ">
         <div className="flex-3">
