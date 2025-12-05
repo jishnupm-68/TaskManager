@@ -1,35 +1,19 @@
 import React from 'react'
+import { useSelector } from 'react-redux';
+import ListItem from './ListItem';
 
 const ListView = () => {
-  let allTasks=[]
+  let todo = useSelector((state)=>state.todo)
+  if(!todo) return
   return (
-    <div>
-      <div className="bg-white rounded-lg shadow overflow-x-auto">
-        <table className="min-w-full text-left">
-          <thead>
-            <tr className="border-b">
-              <th className="px-4 py-3">Title</th>
-              <th className="px-4 py-3">Assignee</th>
-              <th className="px-4 py-3">Due</th>
-              <th className="px-4 py-3">Status</th>
-              <th className="px-4 py-3">Progress</th>
-            </tr>
-          </thead>
-          <tbody>
-            {allTasks.map((t) => (
-              <tr key={t.id} className="hover:bg-slate-50">
-                <td className="px-4 py-3">{t.title}</td>
-                <td className="px-4 py-3">{t.assignee}</td>
-                <td className="px-4 py-3">{t.due}</td>
-                <td className="px-4 py-3">{t.status}</td>
-                <td className="px-4 py-3">{t.progress}%</td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
-    </div>
-  );
+    <div className="bg-white text-blue-600 shadow-lg rounded-xl p-6 border border-gray-200 max-w-3xl mx-auto">
+          
+            <ListItem todo={todo} status={"Todo"} />
+            <ListItem todo={todo} status={"In Progress"} />
+            <ListItem todo={todo} status={"Completed"} />
+          
+        </div>
+  ); 
 };
 
 export default ListView

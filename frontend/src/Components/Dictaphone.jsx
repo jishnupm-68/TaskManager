@@ -41,7 +41,6 @@ const Dictaphone = ({setTranscript, setTitle, setPriority, setStatus, setDueDate
   useEffect(()=>{
     const timer = setTimeout(() => {
       fetchTodoParser()
-      console.log("called the fetch")
     }, 2000);
     return ()=>timer
   },[listening])

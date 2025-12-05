@@ -5,9 +5,10 @@ import { useEffect } from 'react';
 import { BASE_URL } from '../../utils/constants';
 
 
-const useFetchTodo = () => {
+const useFetchTodo = (setResStatus, setResMessage) => {
     const dispatch = useDispatch();
-    const fetchTodos = async()=>{
+    useEffect(()=>{
+        const fetchTodos = async()=>{
         try {
         const res = await fetch(BASE_URL, {
             method: 'GET',
@@ -15,15 +16,20 @@ const useFetchTodo = () => {
             headers: {}});
         const result = await res.json();
         dispatch(setTodos(result?.data));
+        setResMessage(result.message);
+        setResStatus(result.status)
         } catch (error) {
-            console.log(error.message)
+            console.log(error.message+ error.status)
+            setResMessage(error.message);
+            setResStatus(error.status)
+
         }
     }
-
-    
-    useEffect(()=>{
         fetchTodos()
     },[])
+    if(!setResMessage || !setResStatus) return
+    
+    
   return (
     <div>
       
