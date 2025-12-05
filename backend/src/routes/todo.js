@@ -7,7 +7,7 @@ const isLoggedIn = require('../../middleware/auth');
 todoRouter.get('/',isLoggedIn ,async(req, res)=>{
     try {
         const _id = req.user._id;
-        const todos = await User.findById(_id).populate('todos').select('todos').exec();
+        const todos = await User.findById(_id).populate('todos').exec();
         res.status(200).json({message: "Todos fetched successfully", status:true, data: todos.todos}); 
     } catch (error) {
         console.log("Error in fetching todos: ", error);

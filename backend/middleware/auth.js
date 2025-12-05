@@ -15,4 +15,4 @@ const isLoggedIn = async (req, res, next) => {
         res.status(500).json({message: "Internal Server Error "+error.message, status:false});
     }
 };
-module.exports = isLoggedIn;
+module.exports = isLoggedIn; 
