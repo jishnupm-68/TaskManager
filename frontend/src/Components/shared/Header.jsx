@@ -4,6 +4,7 @@ import { Link, useNavigate } from 'react-router';
 import useFetchTodo from '../hooks/useFetchTodo';
 
 const Header = () => {
+  const token = document.cookie;
   useFetchTodo();
   const navigate = useNavigate();
   const handleLogout = async () => {
@@ -28,7 +29,7 @@ const Header = () => {
         </Link>
       </div>
       <div className="navbar-end">
-        {todo == null ? (
+        {!token ? (
           <Link className="btn" to={"/login"}>
             {"Login"}
           </Link>
