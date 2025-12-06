@@ -1,4 +1,5 @@
 const express = require('express');
+const nocache = require("nocache")
 const app = express();
 const connectDb = require('./config/db');
 require('dotenv').config();
@@ -16,6 +17,7 @@ app.use(cors({
 })); 
 app.use(express.json());
 app.use(cookieParser());
+app.use(nocache());
 app.use("/", userRouter)
 app.use("/", todoRouter);
 app.use('/', aiTodoParserRouter)

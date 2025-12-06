@@ -7,10 +7,8 @@ aiTodoParserRouter.post("/todoParser", async (req, res) => {
   try {
     const ai = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY });
     const { text } = req.body;
-
     const currentDate = new Date();
     if (text.length <= 0) return;
-
     const prompt = `
                 You are a task parser. Convert the following text into a JSON object with keys: 
                 "title", "priority", "status", "dueDate".
@@ -31,13 +29,11 @@ aiTodoParserRouter.post("/todoParser", async (req, res) => {
       model: "gemini-2.5-flash-lite",
       contents: prompt,
     });
-    res
-      .status(200)
-      .json({
-        status: true,
-        message: "Text parsed successfully",
-        data: JSON.parse(response.text),
-      });
+    res.status(200).json({
+      status: true,
+      message: "Text parsed successfully",
+      data: JSON.parse(response.text),
+    });
   } catch (error) {
     console.log(error.message);
     res.status(500).json({ status: false, message: error.message });

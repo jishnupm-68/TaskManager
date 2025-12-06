@@ -4,20 +4,34 @@ const User = require('../model/user');
 const Todo = require('../model/todo');
 const isLoggedIn = require('../../middleware/auth');
 
-todoRouter.get('/',isLoggedIn ,async(req, res)=>{
-    try {
-        const _id = req.user._id;
-        const todos = await User.findById(_id).populate('todos').exec();
-        res.status(200).json({message: "Todos fetched successfully", status:true, data: todos.todos}); 
-    } catch (error) {
-        console.log("Error in fetching todos: ", error);
-        res.status(500).json({message: "Internal Server Error "+error.message, status:false});
-    }
+todoRouter.get("/", isLoggedIn, async (req, res) => {
+  try {
+    const _id = req.user._id;
+    const todos = await User.findById(_id)
+      .populate("todos")
+      .select("-passoword")
+      .exec();
+    res
+      .status(200)
+      .json({
+        message: "Todos fetched successfully",
+        status: true,
+        data: todos?.todos,
+      });
+  } catch (error) {
+    console.log("Error in fetching todos: ", error);
+    res
+      .status(500)
+      .json({
+        message: "Internal Server Error " + error.message,
+        status: false,
+      });
+  }
 });
 
 todoRouter.post('/todo', isLoggedIn, async(req, res)=>{
     try {
-        const {title, priority, dueDate, status} = req.body;
+        const {title, priority,description, dueDate, status} = req.body;
         const _id = req.user._id;
         const user = await User.findById(_id);
         const todo = await Todo.findOne({title, dueDate, priority});
@@ -30,6 +44,7 @@ todoRouter.post('/todo', isLoggedIn, async(req, res)=>{
         const newTodo = new Todo({
             title,
             priority,
+            description,
             dueDate,
             status
         });
@@ -45,14 +60,14 @@ todoRouter.post('/todo', isLoggedIn, async(req, res)=>{
 
 todoRouter.patch('/todo', isLoggedIn, async(req, res)=>{
     try {
-        
-        const {_id, title, priority, dueDate, status} = req.body;
+        const {_id, title, priority,description, dueDate, status} = req.body;
+        console.log(req.body)
         let existingTodo = await Todo.findById(_id);
         if(!existingTodo) return res.status(404).json({message: "Todo not found", status:false});
         const due = new Date(dueDate);
         if(due < new Date()) return res.status(400).json({message: "Due date must be in the future", status:false});
         existingTodo = await Todo.findByIdAndUpdate(_id, {
-            title, priority, dueDate, status
+            title, priority, dueDate, description ,status
         }, {runValidators: true, new: true});
         res.status(200).json({message: "Todo updated successfully", status:true, data: existingTodo});
     } catch (error) {
@@ -60,6 +75,7 @@ todoRouter.patch('/todo', isLoggedIn, async(req, res)=>{
         res.status(500).json({message: "Internal Server Error "+error.message, status:false});
     }
 });
+
 todoRouter.delete('/todo/:id', isLoggedIn, async(req, res)=>{
     try {
         const todoId = req.params.id;
@@ -77,6 +93,5 @@ todoRouter.delete('/todo/:id', isLoggedIn, async(req, res)=>{
         res.status(500).json({message: "Internal Server Error "+error.message, status:false});
     }
 });
-
 
 module.exports = todoRouter;
