@@ -1,9 +1,10 @@
 const express = require('express');
 const aiTodoParserRouter = express.Router();
 const { GoogleGenAI } = require('@google/genai');
+const isLoggedIn = require('../../middleware/auth');
 
 
-aiTodoParserRouter.post("/todoParser", async (req, res) => {
+aiTodoParserRouter.post("/todoParser",isLoggedIn ,async (req, res) => {
   try {
     const ai = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY });
     const { text } = req.body;
