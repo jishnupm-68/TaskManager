@@ -50,7 +50,7 @@ userRouter.post("/login", async (req, res) => {
   try {
     const { email, password } = req.body;
     if (!email || !password) return res.status(400).json({ message: "Email and Password are required", status: false });
-    const user = await User.findOne({ email: email });
+    let user = await User.findOne({ email: email })
     if (!user) return res.status(400).json({ message: "User not found", status: false });
     const isMatch = await user.comparePassword(password);
     if (!isMatch) return res.status(400).json({ message: "Invalid credentials", status: false });
@@ -61,6 +61,7 @@ userRouter.post("/login", async (req, res) => {
       secure: false,
       sameSite: "Lax",
     });
+    user = await User.findOne({ email: email }).select("-password")
     res.status(200).json({ message: "Login successful", status: true, data: user });
   } catch (error) {
     console.log("Error in login: ", error);
