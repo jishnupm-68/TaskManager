@@ -27,16 +27,15 @@ const BoardView = () => {
     const data = await res.json();
 
     if (data.status) {
-      // update redux
       dispatch(updateTodoStatus({ id: draggableId, status: toStatus }));
     }
   };
   if (!todo) return;
   return (
     <DragDropContext onDragEnd={onDragEnd}>
-      <div className="bg-red-300 flex px-4 py-4 gap-4">
+      <div className="flex ">
         {statuses.map((s) => (
-          <div className="flex-1" key={s}>
+          <div className="flex-1 px-1" key={s}>
             <BoardCard status={s} todo={todo} />
           </div>
         ))}

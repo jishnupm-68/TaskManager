@@ -9,11 +9,11 @@ const BoardCard = ({ status, todo }) => {
   return (
     <Droppable droppableId={status}>
       {(provided) => (
-        <div className="p-3">
+        <div className=" w-full ">
           <div
             ref={provided.innerRef}
             {...provided.droppableProps}
-            className="overflow-x-auto rounded-xl shadow-lg bg-white min-h-[300px]"
+            className="overflow-x-auto rounded-xl shadow-lg bg-white min-h-[300px] w-full"
           >
             <h2 className="bg-blue-600 text-white px-4 py-3 text-lg font-semibold">
               {status}

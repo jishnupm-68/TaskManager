@@ -197,8 +197,10 @@ const Home = () => {
           </div>
         </header>
         {resStatus && <Response status={resMessage} message={resStatus} />}
-        {view === "board" && <BoardView />}
-        {view === "list" && <ListView />}
+        <div >
+          {view === "board" && <BoardView />}
+          {view === "list" && <ListView />}
+        </div>
       </div>
     </div>
   );
