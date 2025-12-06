@@ -1,40 +1,36 @@
-import React from 'react'
-import { useDispatch } from 'react-redux';
-import { setTodos } from '../../utils/store/slice/todoSlice';
-import { useEffect } from 'react';
-import { BASE_URL } from '../../utils/constants';
-
+import React from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { setTodos } from "../../utils/store/slice/todoSlice";
+import { useEffect } from "react";
+import { BASE_URL } from "../../utils/constants";
 
 const useFetchTodo = (setResStatus, setResMessage) => {
-    const dispatch = useDispatch();
-    useEffect(()=>{
-        const fetchTodos = async()=>{
-        try {
+  const dispatch = useDispatch();
+  const todo = useSelector((state) => state.todo);
+  useEffect(() => {
+    const fetchTodos = async () => {
+      try {
         const res = await fetch(BASE_URL, {
-            method: 'GET',
-            credentials: 'include',
-            headers: {}});
+          method: "GET",
+          credentials: "include",
+          headers: {},
+        });
         const result = await res.json();
-        dispatch(setTodos(result?.data));
+        const { todos } = result.data;
+        dispatch(setTodos(todos));
         setResMessage(result.message);
-        setResStatus(result.status)
-        } catch (error) {
-            console.log(error.message+ error.status)
-            setResMessage(error.message);
-            setResStatus(error.status)
+        setResStatus(result.status);
+      } catch (error) {
+        console.log(error.message + error.status);
+        setResMessage(error.message);
+        setResStatus(error.status);
+      }
+    };
 
-        }
-    }
-        fetchTodos()
-    },[])
-    if(!setResMessage || !setResStatus) return
-    
-    
-  return (
-    <div>
-      
-    </div>
-  )
-}
+    if (todo) return;
+    fetchTodos();
+  }, []);
+  if (!setResMessage || !setResStatus) return;
+};
 
-export default useFetchTodo
+export default useFetchTodo;

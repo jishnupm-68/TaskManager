@@ -39,7 +39,6 @@ todoRouter.post('/todo', isLoggedIn, async(req, res)=>{
         if(!user) return res.status(404).json({message: "User not found", status:false});
         if(!title || !priority || !dueDate) return res.status(400).json({message: "Please provide all required fields", status:false});
         const due = new Date(dueDate);
-        console.log(due < new Date())
         if(due < new Date()) return res.status(400).json({message: "Due date must be in the future", status:false});
         const newTodo = new Todo({
             title,
@@ -61,7 +60,6 @@ todoRouter.post('/todo', isLoggedIn, async(req, res)=>{
 todoRouter.patch('/todo', isLoggedIn, async(req, res)=>{
     try {
         const {_id, title, priority,description, dueDate, status} = req.body;
-        console.log(req.body)
         let existingTodo = await Todo.findById(_id);
         if(!existingTodo) return res.status(404).json({message: "Todo not found", status:false});
         const due = new Date(dueDate);

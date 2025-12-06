@@ -1,58 +1,59 @@
-
-import useFetchTodo from './hooks/useFetchTodo'
-import { useEffect, useState } from 'react';
-import { Link } from 'react-router';
-import BoardView from './BoardView';
-import ListView from './ListView';
-import useFilter from './hooks/useFilter';
-import useSearch from './hooks/useSearch';
+import useFetchTodo from "./hooks/useFetchTodo";
+import { useEffect, useState } from "react";
+import { Link } from "react-router";
+import BoardView from "./BoardView";
+import ListView from "./ListView";
+import useFilter from "./hooks/useFilter";
+import useSearch from "./hooks/useSearch";
 import { FaArrowDown, FaArrowUp } from "react-icons/fa6";
-import useDueDate from './hooks/useDueDate';
-import Response from './shared/Response';
+import useDueDate from "./hooks/useDueDate";
+import Response from "./shared/Response";
 
 const Home = () => {
-  
   const statusArr = ["Todo", "In Progress", "Completed"];
-  const [resStatus, setResStatus]=useState("");
-  const [resMessage, setResMessage] =useState("");
-  const [search, setSearch] = useState("")
+  const [resStatus, setResStatus] = useState("");
+  const [resMessage, setResMessage] = useState("");
+  const [search, setSearch] = useState("");
   const priorityArr = ["Low", "Medium", "High"];
   const [filterKey, setFilterKey] = useState("");
-  const [filterValue, setFilterValue] = useState('')
+  const [filterValue, setFilterValue] = useState("");
   const [view, setView] = useState("board");
   const [dueDateState, setDueDateState] = useState(true);
-  useFetchTodo(setResMessage,setResStatus);
+  useFetchTodo(setResMessage, setResStatus);
   useSearch(search);
-  useFilter(filterKey, filterValue)
-  useDueDate(dueDateState)
-  useEffect(()=>{
+  useFilter(filterKey, filterValue);
+  useDueDate(dueDateState);
+  useEffect(() => {
     const timer = setTimeout(() => {
       setResMessage("");
       setResStatus("");
     }, 3000);
-    return ()=>timer
-  },[resStatus,resMessage])
+    return () => timer;
+  }, [resStatus, resMessage]);
   return (
     <div className="p-6 min-h-screen bg-red-300 ">
       <div className="max-w-6xl mx-auto">
         <header className="flex items-center justify-between mb-6 bg-red-400">
           <h1 className="text-2xl font-semibold pl-3">Tasks</h1>
-
           <div className="w-5/12 flex flex-col md:flex-row items-center gap-3 md:gap-4 p-4  shadow-md rounded-xl">
             <input
               type="text"
-              value = {search}
-              onChange={(e)=>setSearch(e.target.value)}
+              value={search}
+              onChange={(e) => setSearch(e.target.value)}
               placeholder="Search..."
               className="w-full md:flex-1 border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
             />
-
-            <button className="w-full md:w-auto px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition"
-            onClick={()=>{ setSearch(""); }}>
+            <button
+              className="w-full md:w-auto px-6 py-2 cursor-pointer bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition"
+              onClick={() => {
+                setSearch("");
+                setFilterKey("");
+                setFilterValue("");
+              }}
+            >
               Clear
             </button>
           </div>
-
           <div className="navbar-center hidden lg:flex">
             <ul className="menu menu-horizontal px-1">
               <li>
@@ -61,7 +62,14 @@ const Home = () => {
                   <ul className="p-2 bg-red-400 w-40 z-1">
                     {statusArr.map((item, index) => (
                       <li key={index}>
-                        <a onClick={()=>{setFilterKey('status'); setFilterValue(item);}}>{item}</a>
+                        <a
+                          onClick={() => {
+                            setFilterKey("status");
+                            setFilterValue(item);
+                          }}
+                        >
+                          {item}
+                        </a>
                       </li>
                     ))}
                   </ul>
@@ -73,21 +81,26 @@ const Home = () => {
                   <ul className="p-2 bg-red-400 w-40 z-1">
                     {priorityArr.map((item, index) => (
                       <li key={index}>
-                        <a  onClick={()=>{
-                          setFilterKey('priority');
-                          setFilterValue(item);
-                        }}>{item}</a>
+                        <a
+                          onClick={() => {
+                            setFilterKey("priority");
+                            setFilterValue(item);
+                          }}
+                        >
+                          {item}
+                        </a>
                       </li>
                     ))}
                   </ul>
                 </details>
               </li>
               <li>
-                <a onClick={()=>setDueDateState(!dueDateState)}>Due Date {dueDateState?<FaArrowDown />:<FaArrowUp/>}</a>
+                <a onClick={() => setDueDateState(!dueDateState)}>
+                  Due Date {dueDateState ? <FaArrowDown /> : <FaArrowUp />}
+                </a>
               </li>
             </ul>
           </div>
-
           {
             <div className="dropdown">
               <div
@@ -121,10 +134,14 @@ const Home = () => {
                     <ul className="p-2 bg-red-400  w-40 z-1">
                       {statusArr.map((item, index) => (
                         <li key={index}>
-                          <a  onClick={()=>{
-                          setFilterKey('status');
-                          setFilterValue(item);
-                        }}>{item}</a>
+                          <a
+                            onClick={() => {
+                              setFilterKey("status");
+                              setFilterValue(item);
+                            }}
+                          >
+                            {item}
+                          </a>
                         </li>
                       ))}
                     </ul>
@@ -136,22 +153,27 @@ const Home = () => {
                     <ul className="p-2 bg-red-400  w-40 z-1">
                       {priorityArr.map((item, index) => (
                         <li key={index}>
-                          <a  onClick={()=>{
-                          setFilterKey('priority');
-                          setFilterValue(item);
-                        }}>{item}</a>
+                          <a
+                            onClick={() => {
+                              setFilterKey("priority");
+                              setFilterValue(item);
+                            }}
+                          >
+                            {item}
+                          </a>
                         </li>
                       ))}
                     </ul>
                   </details>
                 </li>
                 <li>
-                  <a onClick={()=>setDueDateState(!dueDateState)}>Due Date {dueDateState?<FaArrowDown />:<FaArrowUp/>}</a>
+                  <a onClick={() => setDueDateState(!dueDateState)}>
+                    Due Date {dueDateState ? <FaArrowDown /> : <FaArrowUp />}
+                  </a>
                 </li>
               </ul>
             </div>
           }
-
           <div className="flex gap-2 items-center pr-2 ">
             <button
               onClick={() => setView("board")}
@@ -169,20 +191,17 @@ const Home = () => {
             >
               List
             </button>
-
             <Link to="/add-task" className={`px-3 py-1 rounded-md border`}>
               Add Task
             </Link>
           </div>
-         
         </header>
-        
-         {resStatus && <Response status={resMessage} message={resStatus}/>}
+        {resStatus && <Response status={resMessage} message={resStatus} />}
         {view === "board" && <BoardView />}
         {view === "list" && <ListView />}
       </div>
     </div>
   );
-}
+};
 
-export default Home
+export default Home;

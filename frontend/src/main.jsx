@@ -19,9 +19,9 @@ let router = createBrowserRouter([
       { path: "login", Component: Login },
 
       {
-        // element: <ProtectRoute />,
+        element: <ProtectRoute />,
         children: [
-          { path: "", Component: Home },
+          { path: "/", Component: Home },
           {path:"add-task", Component:TaskDetails} ,
           {path:"edit-task/:_id", Component:EditTask}  
         ]
