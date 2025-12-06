@@ -1,36 +1,52 @@
 import React from "react";
+import { Droppable, Draggable } from "@hello-pangea/dnd";
 import { useNavigate } from "react-router";
 
 const ListItem = ({ todo, status }) => {
   const navigate = useNavigate();
-  if (!todo) return;
-  todo = todo.filter((item) => item.status == status);
-  const getTaskDetails = async (_id) => {
-    navigate("/edit-task/" + _id);
-  };
+  const items = (todo || []).filter((i) => i.status === status);
+
   return (
-    <div className="shadow-lg p-3 rounded-xl bg-white">
-      <h1 className="text-2xl font-bold mb-4 text-gray-800">{status}</h1>
-      {todo.map((item, index) => (
+    <Droppable droppableId={status}>
+      {(provided) => (
         <div
-          key={item._id}
-          onClick={() => getTaskDetails(item._id)}
-          className={`mb-4 p-4 rounded-lg cursor-pointer transition-all
-        ${
-          index % 2 === 0
-            ? "bg-gray-100 hover:bg-gray-200"
-            : "bg-amber-200 hover:bg-amber-300"
-        }
-        shadow-sm hover:shadow-md active:scale-[0.98]
-      `}
+          ref={provided.innerRef}
+          {...provided.droppableProps}
+          className="shadow-lg p-3 rounded-xl bg-white mb-6"
         >
-          <p className="font-semibold text-lg text-gray-900">{item.title}</p>
-          <p className="text-sm text-gray-600 mt-1">
-            Due: {new Date(item.dueDate).toLocaleString()}
-          </p>
+          <h1 className="text-2xl font-bold mb-4 text-gray-800">{status}</h1>
+
+          {items.map((item, index) => (
+            <Draggable
+              key={String(item._id)}
+              draggableId={String(item._id)}
+              index={index}
+            >
+              {(provided) => (
+                <div
+                  ref={provided.innerRef}
+                  {...provided.dragHandleProps}
+                  {...provided.draggableProps}
+                  onClick={() => navigate("/edit-task/" + item._id)}
+                  className={`mb-4 p-4 rounded-lg cursor-pointer transition-all ${
+                    index % 2 === 0 ? "bg-gray-100" : "bg-amber-200"
+                  } shadow-sm hover:shadow-md`}
+                >
+                  <p className="font-semibold text-lg text-gray-900">
+                    {item.title}
+                  </p>
+                  <p className="text-sm text-gray-600 mt-1">
+                    Due: {new Date(item.dueDate).toLocaleString()}
+                  </p>
+                </div>
+              )}
+            </Draggable>
+          ))}
+
+          {provided.placeholder}
         </div>
-      ))}
-    </div>
+      )}
+    </Droppable>
   );
 };
 
