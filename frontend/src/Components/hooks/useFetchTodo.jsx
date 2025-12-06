@@ -21,9 +21,6 @@ const useFetchTodo = (setResStatus, setResMessage) => {
         setResMessage(result.message);
         setResStatus(result.status);
       } catch (error) {
-        console.log(error.message + error.status);
-        setResMessage(error.message);
-        setResStatus(error.status);
       }
     };
 
