@@ -1,5 +1,5 @@
 # Voice-Enabled Task Tracker — README
-> A full-stack productivity application that lets users create, manage, and search tasks using voice commands, AI-powered task parsing, and a clean React/Tailwind UI.
+> A full-stack productivity application that lets users create, manage, and search tasks,and create task using voice commands, AI-powered task parsing, and a clean React/Tailwind UI.
 
 1. Project Setup 
 1.1 Prerequisites
@@ -20,7 +20,7 @@
         DB_CONNECTION_STRING = your monogdb connection string
         JWT_SECRET = your jwt secret
         CORS_ORIGIN_STRING = your frontend connection string
-        PORT= your port number
+        PORT= 3000
         GEMINI_API_KEY= your google gemini api key 
 
 1.2 Installation Steps
@@ -39,6 +39,7 @@ npm run dev
 
 Frontend default runs on: http://localhost:5173
 
+### In frontend/src/utils/constant.s => "http://localhost:<backend port number>/"
 
 2. Tech Stack
     > Frontend
